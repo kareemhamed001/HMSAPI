@@ -1,7 +1,13 @@
+using DataAccessLayer.Data;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (connectionString is null)
+    throw new ArgumentNullException(nameof(connectionString), "Connection string is null");
 
+builder.Services.AddDbContext<AppDbContext>(b => b.UseSqlServer(connectionString));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

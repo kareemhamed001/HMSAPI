@@ -2,7 +2,7 @@
 
 namespace DataAccessLayer.Data
 {
-    internal class AppDbContext : DbContext
+    public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions options) : base(options)
         {
@@ -13,6 +13,12 @@ namespace DataAccessLayer.Data
         {
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.LogTo(Console.WriteLine);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         }
     }
 }
