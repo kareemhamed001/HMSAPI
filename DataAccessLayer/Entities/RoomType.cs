@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Entities
 {
-    internal class RoomType
+    public  class RoomType
     {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+        public List<Room> Rooms { get; set; }
     }
 }
