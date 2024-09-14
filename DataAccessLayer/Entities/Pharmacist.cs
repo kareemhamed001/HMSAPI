@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DataAccessLayer.Entities
+﻿namespace DataAccessLayer.Entities
 {
-    internal class Pharmacist
+    public class Pharmacist
     {
+        public int Id { get; set; }
+        public int SpecializationId { get; set; }
+        public Specialization Specialization { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

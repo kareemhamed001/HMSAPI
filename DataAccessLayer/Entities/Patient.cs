@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Entities
 {
-    internal class Patient
+    public class Patient
     {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }
