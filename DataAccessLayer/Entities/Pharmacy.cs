@@ -13,5 +13,6 @@ namespace DataAccessLayer.Entities
         public string Description { get; set; }
         public int RoomId { get; set; }
         public Room Room { get; set; }
+        public List<PharmacyMedicine> pharmacyMedicines { get; set; } = new List<PharmacyMedicine>();
     }
 }
