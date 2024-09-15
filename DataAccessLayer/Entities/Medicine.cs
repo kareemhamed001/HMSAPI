@@ -16,3 +16,4 @@ namespace DataAccessLayer.Entities
         public List<PharmacyMedicine> pharmacyMedicines { get; set; }= new List<PharmacyMedicine>();
     }
 }
+//
