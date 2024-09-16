@@ -9,7 +9,8 @@
         public Specialization Specialization { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
-        public List<MedicalHistory> MedicalHistories { get; set; }
+        public List<MedicalHistory> MedicalHistories { get; set; }= new List<MedicalHistory>();
+        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
 
     }
 }
