@@ -16,7 +16,7 @@ namespace DataAccessLayer.Data.Configuration
             builder.ToTable("Clinics");
             builder.HasKey(t => t.Id);
             builder.Property(t => t.Id).ValueGeneratedOnAdd();
-            builder.Property(t => t.Name).HasColumnType("nvarchar(50)");
+            builder.Property(t => t.Name).HasColumnType("nvarchar").HasMaxLength(50);
            
         }
     }

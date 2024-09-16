@@ -26,5 +26,6 @@ namespace DataAccessLayer.Entities
         public Patient? Patient { get; set; }
         public Employee? Employee { get; set; }
         public Pharmacist? Pharmacist { get; set; }
+        public List<UserRole> UserRoles { get; set; } = new List<UserRole>();
     }
 }

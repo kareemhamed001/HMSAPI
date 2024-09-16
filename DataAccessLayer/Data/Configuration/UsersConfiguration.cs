@@ -16,12 +16,12 @@ namespace DataAccessLayer.Data.Configuration
             builder.ToTable("Users");
             builder.HasKey(t => t.Id);
             builder.Property(t => t.Id).ValueGeneratedOnAdd();
-            builder.Property(t => t.Name).HasColumnType("nvarchar(50)");
-            builder.Property(t => t.Email).HasColumnType("nvarchar(100)");
-            builder.Property(t => t.Password).HasColumnType("nvarchar(max)");
-            builder.Property(t => t.Address).HasColumnType("nvarchar(max)");
-            builder.Property(t => t.NationalId).HasColumnType("nvarchar(20)");
-            builder.Property(t => t.Image).HasColumnType("nvarchar(200)");
+            builder.Property(t => t.Name).HasColumnType("nvarchar").HasMaxLength(250); ;
+            builder.Property(t => t.Email).HasColumnType("nvarchar").HasMaxLength(250); ;
+            builder.Property(t => t.Password).HasColumnType("nvarchar").HasMaxLength(250); ;
+            builder.Property(t => t.Address).HasColumnType("nvarchar").HasMaxLength(250); ;
+            builder.Property(t => t.NationalId).HasColumnType("nvarchar").HasMaxLength(250); ;
+            builder.Property(t => t.Image).HasColumnType("nvarchar").HasMaxLength(250); ;
         }
     }
 }

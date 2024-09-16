@@ -12,5 +12,6 @@
         public List<MedicalHistory> MedicalHistories { get; set; }= new List<MedicalHistory>();
         public List<Reservation> Reservations { get; set; } = new List<Reservation>();
         public List<ClinicDoctor> ClinicDoctors { get; set; } = new List<ClinicDoctor>();
+        public List<Prescription> Prescriptions { get; set;} = new List<Prescription>();
     }
 }

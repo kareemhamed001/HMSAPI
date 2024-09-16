@@ -16,7 +16,7 @@ namespace DataAccessLayer.Data.Configuration
             builder.ToTable("Staffs");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
-            builder.Property(x => x.Position).HasColumnType("nvarhcar(100)");
+            builder.Property(x => x.Position).HasColumnType("nvarchar").HasMaxLength(250); ;
         }
     }
 }
