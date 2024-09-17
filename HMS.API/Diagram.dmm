@@ -2844,7 +2844,7 @@
 		"replaceSpace": "_",
 		"color": "transparent",
 		"sideSelections": true,
-		"isDirty": false,
+		"isDirty": true,
 		"storedin": {
 			"major": 7,
 			"minor": 2,
@@ -2880,7 +2880,7 @@
 			"indexes": true,
 			"relations": true
 		},
-		"lastSaved": "Sat Sep 14 2024 15:37:53 GMT+0200 (Eastern European Standard Time)"
+		"lastSaved": "Sat Sep 14 2024 15:38:12 GMT+0200 (Eastern European Standard Time)"
 	},
 	"otherObjects": {},
 	"diagrams": {
@@ -2890,7 +2890,7 @@
 			"id": "705fb0a4-07d9-4077-b62a-513f8df846af",
 			"keysgraphics": true,
 			"linegraphics": "detailed",
-			"zoom": 0.7,
+			"zoom": 0.8,
 			"background": "transparent",
 			"lineColor": "transparent",
 			"isOpen": true,
@@ -2961,7 +2961,7 @@
 					"x": 738,
 					"y": 331,
 					"gHeight": 45,
-					"gWidth": 132,
+					"gWidth": 147,
 					"color": "#ffffff",
 					"background": "#03a9f4",
 					"resized": false,
@@ -3081,7 +3081,7 @@
 					"x": 1082,
 					"y": 731,
 					"gHeight": 45,
-					"gWidth": 125,
+					"gWidth": 131,
 					"color": "#ffffff",
 					"background": "#03a9f4",
 					"resized": false,
