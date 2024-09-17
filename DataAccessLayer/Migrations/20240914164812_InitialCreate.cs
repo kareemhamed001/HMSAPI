@@ -12,22 +12,31 @@ namespace DataAccessLayer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Patients",
+                name: "buildings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PatientEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PatientDOB = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PatientBloodGroup = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PatientPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PatientImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PatientStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PatientRole = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    address = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Patients", x => x.Id);
+                    table.PrimaryKey("PK_buildings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoomType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoomType", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -36,8 +45,8 @@ namespace DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(200)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,8 +59,8 @@ namespace DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(200)", nullable: true),
                     Type = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -60,7 +69,7 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "users",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -74,17 +83,51 @@ namespace DataAccessLayer.Migrations
                     Image = table.Column<string>(type: "nvarchar(200)", nullable: true),
                     Type = table.Column<int>(type: "int", nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    BloodGroup = table.Column<int>(type: "int", nullable: false),
-                    PatientId = table.Column<int>(type: "int", nullable: true)
+                    BloodGroup = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Floor",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    BuildingId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Floor", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_users_Patients_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Patients",
-                        principalColumn: "Id");
+                        name: "FK_Floor_buildings_BuildingId",
+                        column: x => x.BuildingId,
+                        principalTable: "buildings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Clinics",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    SectionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clinics", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clinics_Sections_SectionId",
+                        column: x => x.SectionId,
+                        principalTable: "Sections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,7 +136,6 @@ namespace DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Education = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SpecializationId = table.Column<int>(type: "int", nullable: false),
@@ -109,9 +151,9 @@ namespace DataAccessLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Doctors_users_UserId",
+                        name: "FK_Doctors_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "users",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -135,9 +177,9 @@ namespace DataAccessLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Employees_users_UserId",
+                        name: "FK_Employees_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "users",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -148,10 +190,8 @@ namespace DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NationalId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Passport = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WorkExperience = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Passport = table.Column<string>(type: "nvarchar(50)", nullable: true),
+                    Experience = table.Column<int>(type: "int", nullable: true),
                     Education = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AdditionalInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SpecializationId = table.Column<int>(type: "int", nullable: false),
@@ -167,9 +207,28 @@ namespace DataAccessLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Nurses_users_UserId",
+                        name: "FK_Nurses_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "users",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Patients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Patients_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -193,9 +252,9 @@ namespace DataAccessLayer.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Pharmacists_users_UserId",
+                        name: "FK_Pharmacists_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "users",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -206,9 +265,7 @@ namespace DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NationalId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Position = table.Column<string>(type: "nvarhcar(100)", nullable: true),
                     Experience = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -216,12 +273,92 @@ namespace DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_Staffs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Staffs_users_UserId",
+                        name: "FK_Staffs_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "users",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Room",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    FloorId = table.Column<int>(type: "int", nullable: false),
+                    RoomsTypesTd = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Room", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Room_Floor_FloorId",
+                        column: x => x.FloorId,
+                        principalTable: "Floor",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Room_RoomType_RoomsTypesTd",
+                        column: x => x.RoomsTypesTd,
+                        principalTable: "RoomType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pharmacy",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoomId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pharmacy", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pharmacy_Room_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Room",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Warehouse",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    RoomId = table.Column<int>(type: "int", nullable: false),
+                    SectionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Warehouse", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Warehouse_Room_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Room",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Warehouse_Sections_SectionId",
+                        column: x => x.SectionId,
+                        principalTable: "Sections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clinics_SectionId",
+                table: "Clinics",
+                column: "SectionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Doctors_SpecializationId",
@@ -246,6 +383,11 @@ namespace DataAccessLayer.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Floor_BuildingId",
+                table: "Floor",
+                column: "BuildingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Nurses_SpecializationId",
                 table: "Nurses",
                 column: "SpecializationId");
@@ -253,6 +395,12 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Nurses_UserId",
                 table: "Nurses",
+                column: "UserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patients_UserId",
+                table: "Patients",
                 column: "UserId",
                 unique: true);
 
@@ -268,20 +416,45 @@ namespace DataAccessLayer.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pharmacy_RoomId",
+                table: "Pharmacy",
+                column: "RoomId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Room_FloorId",
+                table: "Room",
+                column: "FloorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Room_RoomsTypesTd",
+                table: "Room",
+                column: "RoomsTypesTd");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Staffs_UserId",
                 table: "Staffs",
                 column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_users_PatientId",
-                table: "users",
-                column: "PatientId");
+                name: "IX_Warehouse_RoomId",
+                table: "Warehouse",
+                column: "RoomId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Warehouse_SectionId",
+                table: "Warehouse",
+                column: "SectionId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Clinics");
+
             migrationBuilder.DropTable(
                 name: "Doctors");
 
@@ -292,22 +465,40 @@ namespace DataAccessLayer.Migrations
                 name: "Nurses");
 
             migrationBuilder.DropTable(
+                name: "Patients");
+
+            migrationBuilder.DropTable(
                 name: "Pharmacists");
 
             migrationBuilder.DropTable(
-                name: "Sections");
+                name: "Pharmacy");
 
             migrationBuilder.DropTable(
                 name: "Staffs");
 
             migrationBuilder.DropTable(
+                name: "Warehouse");
+
+            migrationBuilder.DropTable(
                 name: "Specializations");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Patients");
+                name: "Room");
+
+            migrationBuilder.DropTable(
+                name: "Sections");
+
+            migrationBuilder.DropTable(
+                name: "Floor");
+
+            migrationBuilder.DropTable(
+                name: "RoomType");
+
+            migrationBuilder.DropTable(
+                name: "buildings");
         }
     }
 }
