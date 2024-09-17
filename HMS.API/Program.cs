@@ -20,12 +20,14 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 
-builder.Services.AddScoped<IMemoryCache, MemoryCache>();
+builder.Services.AddScoped<IBuildingRepository, BuildingRepository>();
+builder.Services.AddScoped<IBuildingService, BuildingService>();
 
-builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IMemoryCache, MemoryCache>();
 
 builder.Services.AddScoped<IMemoryCache, MemoryCache>();
 

@@ -18,6 +18,10 @@ namespace BusinessLayer.Helpers
             //permission mapping
             CreateMap<Permission, PermissionResponse>();
 
+            //building mapping
+            CreateMap<Building, BuildingResponse>();
+            CreateMap<BuildingRequest, Building>();
+
         }
 
     }
