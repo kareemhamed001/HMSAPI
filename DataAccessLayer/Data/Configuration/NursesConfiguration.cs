@@ -16,9 +16,9 @@ namespace DataAccessLayer.Data.Configuration
             builder.ToTable("Nurses");
             builder.HasKey(n => n.Id);
             builder.Property(n => n.Id).ValueGeneratedOnAdd();
-            builder.Property(n => n.Passport).HasColumnType("nvarchar(50)");
-            builder.Property(n => n.Education).HasColumnType("nvarchar(max)");
-            builder.Property(n => n.AdditionalInfo).HasColumnType("nvarchar(max)");
+            builder.Property(n => n.Passport).HasColumnType("nvarchar").HasMaxLength(250); ;
+            builder.Property(n => n.Education).HasColumnType("nvarchar").HasMaxLength(250); ;
+            builder.Property(n => n.AdditionalInfo).HasColumnType("nvarchar").HasMaxLength(250); ;
         }
     }
 }

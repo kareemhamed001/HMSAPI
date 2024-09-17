@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Entities
 {
-    internal class Supplier
+    public class Supplier
     {
+        public int Id {  get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public List<Medicine> Medicines { get; set; } = new List<Medicine>();
     }
 }

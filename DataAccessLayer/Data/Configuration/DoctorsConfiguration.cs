@@ -16,8 +16,8 @@ namespace DataAccessLayer.Data.Configuration
             builder.ToTable("Doctors");
             builder.HasKey(t => t.Id);
             builder.Property(t => t.Id).ValueGeneratedOnAdd();
-            builder.Property(t => t.Description).HasColumnType("nvarchar(max)");
-            builder.Property(t => t.Education).HasColumnType("nvarchar(max)");
+            builder.Property(t => t.Description).HasColumnType("nvarchar").HasMaxLength(250); ;
+            builder.Property(t => t.Education).HasColumnType("nvarchar").HasMaxLength(250); ;
         }
     }
 }

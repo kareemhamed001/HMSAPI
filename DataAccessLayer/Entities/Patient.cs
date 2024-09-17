@@ -11,5 +11,8 @@ namespace DataAccessLayer.Entities
         public int Id { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
+        public List<MedicalHistory> MedicalHistories { get; set; }=new List<MedicalHistory>();
+        public List<Reservation> Reservations { get; set; }= new List<Reservation>();
+        public List<Prescription> Prescriptions { get; set; } = new List<Prescription>();
     }
 }

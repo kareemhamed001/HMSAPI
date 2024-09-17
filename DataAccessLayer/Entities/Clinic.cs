@@ -12,6 +12,7 @@ namespace DataAccessLayer.Entities
         public string Name { get; set; }
         public int SectionId { get; set; }
         public Section Section { get; set; }
-
+        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
+        public List<ClinicDoctor> ClinicDoctors { get; set; } = new List<ClinicDoctor>();
     }
 }
