@@ -307,7 +307,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permission");
+                    b.ToTable("Permissions");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Pharmacist", b =>
@@ -437,7 +437,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.RolePermission", b =>
@@ -640,15 +640,10 @@ namespace DataAccessLayer.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar");
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -665,7 +660,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Warehouse", b =>
@@ -710,6 +705,21 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("RolesId");
 
                     b.ToTable("PermissionRole");
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.Property<int>("RolesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RolesId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("RoleUser");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Clinic", b =>
@@ -1014,13 +1024,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Entities.User", b =>
-                {
-                    b.HasOne("DataAccessLayer.Entities.Role", null)
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Entities.UserRole", b =>
                 {
                     b.HasOne("DataAccessLayer.Entities.Role", "Role")
@@ -1070,6 +1073,21 @@ namespace DataAccessLayer.Migrations
                     b.HasOne("DataAccessLayer.Entities.Role", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RoleUser", b =>
+                {
+                    b.HasOne("DataAccessLayer.Entities.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1138,8 +1156,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("RolePermissions");
 
                     b.Navigation("UserRoles");
-
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Room", b =>
