@@ -12,7 +12,7 @@ namespace DataAccessLayer.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public string address { get; set; }
-        public List<Floor> Floors { get; set; }
+        public List<Floor> Floors { get; set; }=new List<Floor>();
 
 
     }

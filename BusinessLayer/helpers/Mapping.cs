@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLayer.Responses;
 using DataAccessLayer.Entities;
+using SharedClasses.Responses;
 namespace BusinessLayer.Helpers
 {
     public class MappingProfiles : Profile

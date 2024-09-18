@@ -1,17 +1,13 @@
 ﻿using AutoMapper;
+using BusinessLayer.Responses;
 using DataAccessLayer.Interfaces;
 using Microsoft.Extensions.Logging;
 using SharedClasses.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SharedClasses.Responses;
 
 namespace BusinessLayer.Services
 {
-    public class BuildingService: IBuildingService
+    public class BuildingService : IBuildingService
     {
         private readonly IBuildingRepository _buildingRepository;
         private readonly ILogger<BuildingService> _logger;
@@ -20,13 +16,13 @@ namespace BusinessLayer.Services
         {
             _buildingRepository = buildingRepository;
             _logger = logger;
-            mapper = mapper;
+            this.mapper = mapper;
         }
-        public async Task<IEnumerable<Building>> GetAllBuildingsAsync()
+        public async Task<IEnumerable<BuildingResponse>> GetAllBuildingsAsync()
         {
             try
             {
-                var buildings = await _buildingRepository.GetAllBuildingsAsync();
+                var buildings =(List<BuildingResponse>) await _buildingRepository.GetAllBuildingsAsync();
                 return buildings;
             }
             catch (Exception ex)
@@ -36,7 +32,7 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task<Building> GetBuildingByIdAsync(int id)
+        public async Task<BuildingResponse> GetBuildingByIdAsync(int id)
         {
             try
             {
@@ -55,11 +51,13 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task<Building> CreateBuildingAsync(BuildingRequest buildingRequest)
+        public async Task<BuildingResponse> CreateBuildingAsync(BuildingRequest buildingRequest)
         {
             try
             {
-                Building building= mapper.Map<Building>(buildingRequest);
+              
+                Building building = mapper.Map<Building>(buildingRequest);
+    
                 var createdBuilding = await _buildingRepository.CreateBuildingAsync(building);
                 return createdBuilding;
             }
@@ -70,7 +68,7 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task<Building> UpdateBuildingAsync(BuildingRequest buildingRequest)
+        public async Task<BuildingResponse> UpdateBuildingAsync(BuildingRequest buildingRequest)
         {
             if (buildingRequest == null)
             {
@@ -101,12 +99,13 @@ namespace BusinessLayer.Services
         {
             try
             {
-                var building = await _buildingRepository.GetBuildingById(id);
-                if (building == null)
+                var buildingResponse = await _buildingRepository.GetBuildingById(id);
+                if (buildingResponse == null)
                 {
                     _logger.LogWarning("Building with ID: {Id} not found for deletion.", id);
                     throw new NotFoundException("Building not found.");
                 }
+                Building building=mapper.Map<Building>(buildingResponse);
                 var deletedBuilding = await _buildingRepository.DeleteBuildingAsync(building);
                 return deletedBuilding;
             }

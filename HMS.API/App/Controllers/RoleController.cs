@@ -3,6 +3,7 @@ using LMSApi.App.Requests;
 
 using AutoMapper;
 using SharedClasses.Exceptions;
+using SharedClasses.Responses;
 
 namespace LMSApi.Controllers
 {
