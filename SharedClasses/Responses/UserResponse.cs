@@ -1,4 +1,4 @@
-﻿namespace BusinessLayer.Responses
+﻿namespace SharedClasses.Responses
 {
     public class UserResponse
     {
