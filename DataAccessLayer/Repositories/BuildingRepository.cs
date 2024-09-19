@@ -83,6 +83,12 @@ namespace DataAccessLayer.Repositories
             return floors;
         }
 
-
+        public async Task<Building> BuildingExist(int id)
+        {
+            var building = await _context.Buildings
+             .AsNoTracking()
+             .FirstOrDefaultAsync(b => b.Id == id);
+            return building;
+        }
     }
 }

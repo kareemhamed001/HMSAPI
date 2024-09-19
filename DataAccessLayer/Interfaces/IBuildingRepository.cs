@@ -12,5 +12,6 @@ namespace DataAccessLayer.Interfaces
 
         // Additional methods
         Task<IEnumerable<Floor>> GetFloorsByBuildingId(int buildingId);
+        Task<Building> BuildingExist(int id);
     }
 }

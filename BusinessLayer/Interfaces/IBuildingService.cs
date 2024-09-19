@@ -12,7 +12,7 @@ namespace BusinessLayer.Interfaces
         Task<IEnumerable<BuildingResponse>> GetAllBuildingsAsync();
         Task<BuildingResponse> GetBuildingByIdAsync(int id);
         Task<BuildingResponse> CreateBuildingAsync(BuildingRequest buildingRequest);
-        Task<BuildingResponse> UpdateBuildingAsync(BuildingRequest buildingRequest);
+        Task<BuildingResponse> UpdateBuildingAsync(int id,BuildingRequest buildingRequest);
         Task<Building> DeleteBuildingAsync(int id);
         Task<IEnumerable<Floor>> GetFloorsByBuildingIdAsync(int buildingId);
     }

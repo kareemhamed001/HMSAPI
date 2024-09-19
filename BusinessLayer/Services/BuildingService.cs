@@ -68,29 +68,28 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task<BuildingResponse> UpdateBuildingAsync(BuildingRequest buildingRequest)
+        public async Task<BuildingResponse> UpdateBuildingAsync(int id ,BuildingRequest buildingRequest)
         {
-            if (buildingRequest == null)
-            {
-                _logger.LogWarning("Invalid building object or ID provided for update.");
-                throw new ArgumentException("Invalid building object or ID.");
-            }
-
             try
             {
-                Building building = mapper.Map<Building>(buildingRequest);
-                var existingBuilding = await _buildingRepository.GetBuildingById(building.Id);
+                // Fetch the existing building
+                var existingBuilding = await _buildingRepository.BuildingExist(id);
                 if (existingBuilding == null)
                 {
-                    _logger.LogWarning("Building with ID: {Id} not found for update.", building.Id);
-                    throw new KeyNotFoundException("Building not found.");
+                    _logger.LogWarning("Building with ID: {Id} not found for update.", id);
+                    throw new NotFoundException("Building not found.");
                 }
-                var updatedBuilding = await _buildingRepository.UpdateBuildingAsync(building);
+
+                // Map updated properties from the request
+                mapper.Map(buildingRequest, existingBuilding);
+
+                // Save the updated building
+                var updatedBuilding = await _buildingRepository.UpdateBuildingAsync(existingBuilding);
                 return updatedBuilding;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error occurred while updating building with Name: {Name}", buildingRequest.Name);
+                _logger.LogError(ex, "Error occurred while updating building with ID: {Id}", id);
                 throw;
             }
         }
@@ -131,7 +130,7 @@ namespace BusinessLayer.Services
                 if (floors == null || !floors.Any())
                 {
                     _logger.LogWarning("No floors found for building with ID: {BuildingId}", buildingId);
-                    throw new NotFoundException("floors not found.");
+                    throw new NotFoundException("No floors found for This building ");
                 }
                 return floors;
             }

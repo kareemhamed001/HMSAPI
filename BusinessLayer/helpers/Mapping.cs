@@ -21,6 +21,7 @@ namespace BusinessLayer.Helpers
 
             //building mapping
             CreateMap<Building, BuildingResponse>();
+            CreateMap<BuildingResponse, Building>();
             CreateMap<BuildingRequest, Building>();
 
         }
