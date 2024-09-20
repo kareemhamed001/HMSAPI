@@ -34,7 +34,10 @@ namespace BusinessLayer.Helpers
             CreateMap<RoomTypeResponse, RoomType>();
             CreateMap<RoomTypeRequest, RoomType>();
 
-
+            //room mapping
+            CreateMap<Room,RoomResponse>();
+            CreateMap<RoomResponse, Room>();
+            CreateMap<RoomRequest, Room>();
         }
 
     }
