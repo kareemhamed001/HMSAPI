@@ -31,6 +31,8 @@ builder.Services.AddScoped<IMemoryCache, MemoryCache>();
 
 builder.Services.AddScoped<IMemoryCache, MemoryCache>();
 
+builder.Services.AddScoped<IFloorRepository, FloorRepository>();
+builder.Services.AddScoped<IFloorService, FloorService>();
 
 builder.Services.AddScoped<PermissionSeeder>();
 
