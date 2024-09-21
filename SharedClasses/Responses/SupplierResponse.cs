@@ -4,15 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccessLayer.Entities
+namespace SharedClasses.Responses
 {
-    public class Section
+    public class SupplierResponse
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<Clinic> Clinics { get; set; } = new List<Clinic>();
-        public List<Warehouse> Warehouses { get; set; } = new List<Warehouse>();
-
+        public List<int> MedicineIds { get; set; } = new List<int>(); 
     }
 }

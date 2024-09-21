@@ -48,6 +48,21 @@ namespace BusinessLayer.Helpers
             CreateMap<Warehouse, WarehouseResponse>();
             CreateMap<WarehouseResponse, Warehouse>();
             CreateMap<WarehouseRequest, Warehouse>();
+
+            //Supplier mapping
+            CreateMap<Supplier, SupplierResponse>();
+            CreateMap<SupplierResponse, Supplier>();
+            CreateMap<SupplierRequest, Supplier>();
+
+            //Medicine mapping
+            CreateMap<Medicine, MedicineResponse>();
+            CreateMap<MedicineResponse, Medicine>();
+            CreateMap<MedicineRequest, Medicine>();
+
+            //Section mapping
+            CreateMap<Section, SectionResponse>();
+            CreateMap<SectionResponse, Section>();
+            CreateMap<SectionRequest, Section>();
         }
 
     }
