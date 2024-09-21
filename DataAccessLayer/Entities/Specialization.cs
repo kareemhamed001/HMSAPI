@@ -13,7 +13,7 @@ namespace DataAccessLayer.Entities
         public string Name { get; set; }
         public string? Description { get; set; }
         public SpecializationTypesEnum Type { get; set; }
-        public List<Doctor> Doctors { get; set; }
+        public List<Doctor> Doctors { get; set; } = new List<Doctor>();
 
     }
 }

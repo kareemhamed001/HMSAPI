@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessLayer.Requests;
 using BusinessLayer.Responses;
 using DataAccessLayer.Entities;
 using SharedClasses.Responses;
@@ -63,6 +64,27 @@ namespace BusinessLayer.Helpers
             CreateMap<Section, SectionResponse>();
             CreateMap<SectionResponse, Section>();
             CreateMap<SectionRequest, Section>();
+
+            //specialization mapping 
+            CreateMap<Specialization, SpecializationResponse>();
+            CreateMap<SpecializationResponse, Specialization>();
+            CreateMap<SpecializationRequest, Specialization>();
+
+            //clinic mapping
+            CreateMap<Clinic, ClinicResponse>();
+            CreateMap<ClinicResponse, Clinic>();
+            CreateMap<ClinicRequest, Clinic>();
+
+            //Nurse mapping
+            CreateMap<Nurse, NurseResponse>();
+            CreateMap<NurseResponse, Nurse>();
+            CreateMap<NurseRequest, Nurse>();
+
+            //Staff mapping
+            CreateMap<Staff, StaffResponse>();
+            CreateMap<StaffResponse, Staff>();
+            CreateMap<StaffRequest, Staff>();
+
         }
 
     }
