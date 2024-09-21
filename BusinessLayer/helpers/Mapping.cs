@@ -38,6 +38,16 @@ namespace BusinessLayer.Helpers
             CreateMap<Room,RoomResponse>();
             CreateMap<RoomResponse, Room>();
             CreateMap<RoomRequest, Room>();
+
+            //pharmacy mapping
+            CreateMap<Pharmacy, PharmacyResponse>();
+            CreateMap<PharmacyResponse, Pharmacy>();
+            CreateMap<PharmacyRequest, Pharmacy>();
+
+            //Warehouse mapping
+            CreateMap<Warehouse, WarehouseResponse>();
+            CreateMap<WarehouseResponse, Warehouse>();
+            CreateMap<WarehouseRequest, Warehouse>();
         }
 
     }

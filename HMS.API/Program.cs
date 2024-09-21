@@ -40,6 +40,12 @@ builder.Services.AddScoped<IRoomTypeService, RoomTypeService>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 
+builder.Services.AddScoped<IPharmacyRepository, PharmacyRepository>();
+builder.Services.AddScoped<IPharmacyService, PharmacyService>();
+
+builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
+builder.Services.AddScoped<IWarehouseService, WarehouseService>();
+
 builder.Services.AddScoped<PermissionSeeder>();
 
 builder.Services.AddHttpContextAccessor();
