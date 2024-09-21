@@ -3,6 +3,7 @@ using BusinessLayer.Requests;
 using BusinessLayer.Responses;
 using DataAccessLayer.Entities;
 using SharedClasses.Responses;
+using System.Numerics;
 namespace BusinessLayer.Helpers
 {
     public class MappingProfiles : Profile
@@ -85,6 +86,36 @@ namespace BusinessLayer.Helpers
             CreateMap<StaffResponse, Staff>();
             CreateMap<StaffRequest, Staff>();
 
+            //doctor mapping 
+            CreateMap<Doctor, DoctorResponse>();
+            CreateMap<DoctorResponse, Doctor>();
+            CreateMap<DoctorRequest, Doctor>();
+
+            //Employee mapping 
+            CreateMap<Employee, EmployeeResponse>();
+            CreateMap<EmployeeResponse, Employee>();
+            CreateMap<EmployeeRequest, Employee>();
+
+            //Pharmacist mapping 
+            CreateMap<Pharmacist, PharmacistResponse>();
+            CreateMap<PharmacistResponse, Pharmacist>();
+            CreateMap<PharmacistRequest, Pharmacist>();
+
+            //Reservation mapping 
+            CreateMap<Reservation, ReservationResponse>();
+            CreateMap<ReservationResponse, Reservation>();
+            CreateMap<ReservationRequest, Reservation>();
+
+
+            //Prescription mapping 
+            CreateMap<Prescription, PrescriptionResponse>();
+            CreateMap<PrescriptionResponse, Prescription>();
+            CreateMap<PrescriptionRequest, Prescription>();
+
+            //Patient mapping 
+            CreateMap<Patient, PatientResponse>();
+            CreateMap<PatientResponse, Patient>();
+            CreateMap<PatientRequest, Patient>();
         }
 
     }
