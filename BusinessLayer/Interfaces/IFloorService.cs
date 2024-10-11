@@ -15,5 +15,6 @@ namespace BusinessLayer.Interfaces
         Task<FloorResponse> UpdateFloorAsync(int id, FloorRequest floor);
         Task<Floor> DeleteFloorAsync(int id);
         Task<IEnumerable<Room>> GetRoomsByFloorIdAsync(int id);
+        Task<BuildingResponse> GetBuildingByFloorIdAsync(int id);
     }
 }

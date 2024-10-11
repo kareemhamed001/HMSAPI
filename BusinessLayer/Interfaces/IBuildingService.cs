@@ -14,6 +14,6 @@ namespace BusinessLayer.Interfaces
         Task<BuildingResponse> CreateBuildingAsync(BuildingRequest buildingRequest);
         Task<BuildingResponse> UpdateBuildingAsync(int id,BuildingRequest buildingRequest);
         Task<Building> DeleteBuildingAsync(int id);
-        Task<IEnumerable<Floor>> GetFloorsByBuildingIdAsync(int buildingId);
+        Task<IEnumerable<FloorResponse>> GetFloorsByBuildingIdAsync(int buildingId);
     }
 }

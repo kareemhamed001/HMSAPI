@@ -9,13 +9,13 @@ namespace LMSApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class BuldingsController : ControllerBase
+    public class BuildingsController : ControllerBase
     {
         private IBuildingService buildingService;
-        private readonly ILogger<BuldingsController> logger;
+        private readonly ILogger<BuildingsController> logger;
         private readonly IMapper mapper;
 
-        public BuldingsController(IBuildingService buildingService, ILogger<BuldingsController> logger, IMapper mapper)
+        public BuildingsController(IBuildingService buildingService, ILogger<BuildingsController> logger, IMapper mapper)
         {
             this.buildingService = buildingService;
             this.logger = logger;

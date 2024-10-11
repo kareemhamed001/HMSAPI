@@ -10,7 +10,7 @@ namespace DataAccessLayer.Interfaces
     public interface IFloorRepository
     {
         Task<IEnumerable<FloorResponse>> GetAllFloorsAsync();
-        Task<FloorResponse> GetFloorById(int id);
+        Task<FloorResponse?> GetFloorById(int id);
         Task<FloorResponse> CreateFloorAsync(Floor floor);
         Task<FloorResponse> UpdateFloorAsync(int id, Floor floor);
         Task<Floor> DeleteFloorAsync(Floor floor);

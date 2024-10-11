@@ -115,13 +115,13 @@ namespace BusinessLayer.Services
             }
         }
 
-        public async Task<IEnumerable<Floor>> GetFloorsByBuildingIdAsync(int buildingId)
+        public async Task<IEnumerable<FloorResponse>> GetFloorsByBuildingIdAsync(int buildingId)
         {
             try
             {
-                var buildingExists = await _buildingRepository.GetBuildingById(buildingId) != null;
+                var buildingExists = await _buildingRepository.GetBuildingById(buildingId);
 
-                if (!buildingExists)
+                if (buildingExists == null)
                 {
                     _logger.LogWarning("Building with ID: {BuildingId} does not exist. Operation took {ElapsedMs} ms.", buildingId);
                     throw new NotFoundException($"Building with ID: {buildingId} does not exist.");

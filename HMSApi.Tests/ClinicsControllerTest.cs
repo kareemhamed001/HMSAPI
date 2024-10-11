@@ -8,10 +8,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using SharedClasses.Exceptions;
 using SharedClasses.Responses;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Xunit;
 using BusinessLayer.Helpers;
 using DataAccessLayer.Entities;
 

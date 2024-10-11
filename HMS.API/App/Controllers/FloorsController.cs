@@ -144,5 +144,25 @@ namespace HMS.Controllers
                 return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
+        [HttpGet]
+        [Route("{floorId:int}/building")]
+        public async Task<ActionResult<IApiResponse>> GetBuildingByFloorId(int floorId)
+        {
+            try
+            {
+                var rooms = await floorService.GetBuildingByFloorIdAsync(floorId);
+                return Ok(ApiResponseFactory.Create(rooms, "Building fetched successfully", 200, true));
+            }
+            catch (NotFoundException ex)
+            {
+                logger.LogWarning(ex, "Building not found for floor with ID: {FloorId}.", floorId);
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
+            }
+            catch (Exception ex)
+            {
+                logger.LogCritical(ex, "An error occurred while fetching Building for floor with ID: {FloorId}. Log message: {logMessage}", floorId, ex);
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
+            }
+        }
     }
 }

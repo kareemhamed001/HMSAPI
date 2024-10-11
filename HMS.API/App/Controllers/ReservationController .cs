@@ -1,12 +1,5 @@
 ﻿using AutoMapper;
-using BusinessLayer.Requests;
-using BusinessLayer.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using SharedClasses.Exceptions;
-using SharedClasses.Responses;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LMSApi.Controllers
 {

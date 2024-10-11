@@ -17,6 +17,7 @@ namespace BusinessLayer.Services
     public class FloorService:IFloorService
     {
         private readonly IFloorRepository _floorRepository;
+        private readonly IBuildingRepository _buildingRepository;
         private readonly ILogger<FloorService> _logger;
         private readonly IMapper mapper;
         public FloorService(IFloorRepository floorRepository, ILogger<FloorService> logger,IMapper mapper)
@@ -72,6 +73,24 @@ namespace BusinessLayer.Services
                 throw;
             }
 }
+
+        public async Task<BuildingResponse> GetBuildingByFloorIdAsync(int id)
+        {
+            FloorResponse? floor=await _floorRepository.GetFloorById(id);
+            if (floor == null)
+            {
+                _logger.LogWarning("Building with ID: {Id} not found.", id);
+                throw new NotFoundException("Building not found.");
+            }
+
+            BuildingResponse? building =await _buildingRepository.GetBuildingById(floor.BuildingId);
+            if (building == null)
+            {
+                _logger.LogWarning("Building with ID: {Id} not found.", id);
+                throw new NotFoundException("Building not found.");
+            }
+            return building;
+        }
 
         public async Task<FloorResponse> GetFloorByIdAsync(int id)
         {

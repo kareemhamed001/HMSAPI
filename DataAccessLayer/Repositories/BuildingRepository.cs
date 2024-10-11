@@ -1,4 +1,5 @@
-﻿using SharedClasses.Responses;
+﻿using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using SharedClasses.Responses;
 
 
 namespace DataAccessLayer.Repositories
@@ -76,10 +77,18 @@ namespace DataAccessLayer.Repositories
 
 
         // Additional methods
-        public async Task<IEnumerable<Floor>> GetFloorsByBuildingId(int buildingId)
+        public async Task<IEnumerable<FloorResponse>> GetFloorsByBuildingId(int buildingId)
         {
-            var building = await _context.Buildings.Include(b => b.Floors).FirstOrDefaultAsync(b => b.Id == buildingId);
-            var floors = building.Floors;
+            IEnumerable<FloorResponse> floors = await _context.Floors
+                    .Where(f => f.BuildingId == buildingId)
+                       .Select(f => new FloorResponse
+                       {
+                           Id = f.Id,
+                           Name = f.Name,
+                       })
+                    .AsNoTracking()
+                    .ToListAsync();
+
             return floors;
         }
 
@@ -90,5 +99,7 @@ namespace DataAccessLayer.Repositories
              .FirstOrDefaultAsync(b => b.Id == id);
             return building;
         }
+
+   
     }
 }

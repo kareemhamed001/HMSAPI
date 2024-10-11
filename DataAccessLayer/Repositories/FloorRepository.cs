@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Repositories
 {
-    public class FloorRepository:IFloorRepository
+    public class FloorRepository : IFloorRepository
     {
         private readonly AppDbContext _context;
         public FloorRepository(AppDbContext context)
@@ -38,7 +38,7 @@ namespace DataAccessLayer.Repositories
 
         public async Task<IEnumerable<FloorResponse>> GetAllFloorsAsync()
         {
-           var floors=await _context.Floors.Select(br => new FloorResponse
+            var floors = await _context.Floors.Select(br => new FloorResponse
             {
                 Id = br.Id,
                 Name = br.Name,
@@ -46,15 +46,16 @@ namespace DataAccessLayer.Repositories
             return floors;
         }
 
-        public async Task<FloorResponse> GetFloorById(int id)
+        public async Task<FloorResponse?> GetFloorById(int id)
         {
-            var floor = await _context.Floors.Select(fr => new FloorResponse
+            return await _context.Floors.Select(fr => new FloorResponse
             {
                 Id = fr.Id,
                 Name = fr.Name,
-            }).FirstOrDefaultAsync();
+                BuildingId = fr.BuildingId
+            }).FirstOrDefaultAsync(f => f.Id == id);
 
-            return floor;
+            
         }
         public async Task<FloorResponse> UpdateFloorAsync(int id, Floor floor)
         {
@@ -74,7 +75,7 @@ namespace DataAccessLayer.Repositories
         {
             var floor = await _context.Floors.Include(f => f.Rooms).FirstOrDefaultAsync(b => b.Id == id);
             var room = floor?.Rooms;
-            return room! ;
+            return room!;
         }
     }
 }
