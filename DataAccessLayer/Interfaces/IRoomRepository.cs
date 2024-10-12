@@ -14,5 +14,6 @@ namespace DataAccessLayer.Interfaces
         Task<RoomResponse> CreateRoomAsync(Room room);
         Task<RoomResponse> UpdateRoomAsync(int id, Room room);
         Task<Room> DeleteRoomAsync(Room room);
+        Task<RoomTypeResponse?> GetRoomTypeByRoomIdAsync(int roomId);
     }
 }

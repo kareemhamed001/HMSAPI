@@ -120,5 +120,25 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        public async Task<RoomTypeResponse?> GetRoomTypeByRoomIdAsync(int roomId)
+        {
+            try
+            {
+                var roomType = await _roomRepository.GetRoomTypeByRoomIdAsync(roomId);
+                if (roomType == null)
+                {
+                    _logger.LogWarning("RoomType for Room ID: {Id} not found.", roomId);
+                    throw new NotFoundException("RoomType not found.");
+                }
+
+                return roomType;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching RoomType for Room ID: {Id}", roomId);
+                throw;
+            }
+        }
+
     }
 }

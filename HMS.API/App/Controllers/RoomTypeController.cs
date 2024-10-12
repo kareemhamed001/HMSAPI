@@ -119,5 +119,20 @@ namespace LMSApi.Controllers
                 return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
+        [HttpGet]
+        [Route("RoomType/{roomTypeId:int}")]
+        public async Task<ActionResult<IEnumerable<RoomResponse>>> GetRoomsByRoomTypeId(int roomTypeId)
+        {
+            try
+            {
+                var rooms = await roomTypeService.GetRoomsByRoomTypeIdAsync(roomTypeId);
+                return Ok(ApiResponseFactory.Create(rooms, "Rooms fetched successfully for the given RoomTypeId", 200, true));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while fetching rooms for RoomTypeId: {RoomTypeId}", roomTypeId);
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
+            }
+        }
     }
 }

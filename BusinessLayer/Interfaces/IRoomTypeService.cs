@@ -14,5 +14,6 @@ namespace BusinessLayer.Interfaces
         Task<RoomTypeResponse> CreateRoomTypeAsync(RoomTypeRequest roomTypeRequest);
         Task<RoomTypeResponse> UpdateRoomTypeAsync(int id, RoomTypeRequest roomTypeRequest);
         Task<RoomType> DeleteRoomTypeAsync(int id);
+        Task<IEnumerable<RoomResponse>> GetRoomsByRoomTypeIdAsync(int roomTypeId);
     }
 }
