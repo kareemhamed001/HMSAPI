@@ -26,7 +26,6 @@ namespace DataAccessLayer.Repositories
                 Id = supplier.Id,
                 Name = supplier.Name,
                 Description = supplier.Description,
-                MedicineIds = supplier.Medicines.Select(m => m.Id).ToList()
             };
         }
 
@@ -50,7 +49,6 @@ namespace DataAccessLayer.Repositories
                     Id = s.Id,
                     Name = s.Name,
                     Description = s.Description,
-                    MedicineIds = s.Medicines.Select(m => m.Id).ToList()
                 })
                 .AsNoTracking()
                 .ToListAsync();
@@ -65,7 +63,6 @@ namespace DataAccessLayer.Repositories
                     Id = s.Id,
                     Name = s.Name,
                     Description = s.Description,
-                    MedicineIds = s.Medicines.Select(m => m.Id).ToList()
                 })
                 .FirstOrDefaultAsync();
         }
@@ -79,8 +76,20 @@ namespace DataAccessLayer.Repositories
                 Id = supplier.Id,
                 Name = supplier.Name,
                 Description = supplier.Description,
-                MedicineIds = supplier.Medicines.Select(m => m.Id).ToList()
             };
+        }
+        public async Task<IEnumerable<MedicineResponse>> GetMedicinesBySupplierIdAsync(int supplierId)
+        {
+            var medicines = await _context.Medicines
+                .Where(m => m.SupplierId == supplierId) 
+                .ToListAsync();
+
+            return medicines.Select(m => new MedicineResponse
+            {
+                Id = m.Id,
+                Name = m.Name,
+                Description = m.Description,
+            }).ToList();
         }
     }
 }

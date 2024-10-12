@@ -11,5 +11,6 @@ namespace BusinessLayer.Interfaces
         Task<MedicineResponse> CreateMedicineAsync(MedicineRequest medicineRequest);
         Task<MedicineResponse> UpdateMedicineAsync(int id, MedicineRequest medicineRequest);
         Task<Medicine> DeleteMedicineAsync(int id);
+        Task<SupplierResponse?> GetSupplierByMedicineIdAsync(int medicineId);
     }
 }
