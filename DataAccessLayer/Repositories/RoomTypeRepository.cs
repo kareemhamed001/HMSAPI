@@ -71,5 +71,20 @@ namespace DataAccessLayer.Repositories
             };
             return response;
         }
+        public async Task<IEnumerable<RoomResponse>> GetRoomsByRoomTypeIdAsync(int roomTypeId)
+        {
+            var rooms = await _context.Rooms
+                .Where(r => r.RoomsTypesTd == roomTypeId)
+                .Select(r => new RoomResponse
+                {
+                    Id = r.Id,
+                    Name = r.Name,
+                    FloorId = r.FloorId,
+                    RoomsTypesTd = r.RoomsTypesTd
+                })
+                .ToListAsync();
+
+            return rooms;
+        }
     }
 }

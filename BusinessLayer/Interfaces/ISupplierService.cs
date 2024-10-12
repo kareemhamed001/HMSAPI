@@ -11,5 +11,6 @@ namespace BusinessLayer.Interfaces
         Task<SupplierResponse> CreateSupplierAsync(SupplierRequest supplierRequest);
         Task<SupplierResponse> UpdateSupplierAsync(int id, SupplierRequest supplierRequest);
         Task<Supplier> DeleteSupplierAsync(int id);
+        Task<IEnumerable<MedicineResponse>> GetMedicinesBySupplierIdAsync(int supplierId);
     }
 }

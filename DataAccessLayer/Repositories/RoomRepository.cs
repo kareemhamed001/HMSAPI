@@ -80,5 +80,23 @@ namespace DataAccessLayer.Repositories
             };
             return response;
         }
+
+        public async Task<RoomTypeResponse?> GetRoomTypeByRoomIdAsync(int roomId)
+        {
+            var room = await _context.Rooms
+                .Include(r => r.RoomType)
+                .FirstOrDefaultAsync(r => r.Id == roomId);
+
+            if (room?.RoomType == null)
+            {
+                return null;
+            }
+
+            return new RoomTypeResponse
+            {
+                Id = room.RoomType.Id,
+                Name = room.RoomType.Name,
+            };
+        }
     }
 }

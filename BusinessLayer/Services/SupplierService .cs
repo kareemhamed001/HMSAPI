@@ -111,5 +111,18 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+
+        public async Task<IEnumerable<MedicineResponse>> GetMedicinesBySupplierIdAsync(int supplierId)
+        {
+            try
+            {
+                return await _supplierRepository.GetMedicinesBySupplierIdAsync(supplierId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching medicines for SupplierId: {SupplierId}", supplierId);
+                throw;
+            }
+        }
     }
 }

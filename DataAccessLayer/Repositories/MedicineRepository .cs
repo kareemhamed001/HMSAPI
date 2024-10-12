@@ -82,5 +82,21 @@ namespace DataAccessLayer.Repositories
                 SupplierId = medicine.SupplierId
             };
         }
+
+        public async Task<SupplierResponse?> GetSupplierByMedicineIdAsync(int medicineId)
+        {
+            var medicine = await _context.Medicines
+                .Include(m => m.Supplier) 
+                .FirstOrDefaultAsync(m => m.Id == medicineId);
+
+            if (medicine?.Supplier == null) return null;
+
+            return new SupplierResponse
+            {
+                Id = medicine.Supplier.Id,
+                Name = medicine.Supplier.Name,
+                Description = medicine.Supplier.Description,
+            };
+        }
     }
 }

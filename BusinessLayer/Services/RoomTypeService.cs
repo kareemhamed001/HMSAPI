@@ -121,5 +121,18 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
+        public async Task<IEnumerable<RoomResponse>> GetRoomsByRoomTypeIdAsync(int roomTypeId)
+        {
+            try
+            {
+                var rooms = await _roomTypeRepository.GetRoomsByRoomTypeIdAsync(roomTypeId);
+                return rooms;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching rooms for RoomTypeId: {RoomTypeId}", roomTypeId);
+                throw;
+            }
+        }
     }
 }

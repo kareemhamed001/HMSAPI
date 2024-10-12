@@ -119,5 +119,20 @@ namespace LMSApi.Controllers
                 return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
+        [HttpGet]
+        [Route("supplierId/medicines")]
+        public async Task<ActionResult<IEnumerable<MedicineResponse>>> GetMedicinesBySupplierId(int supplierId)
+        {
+            try
+            {
+                var medicines = await _supplierService.GetMedicinesBySupplierIdAsync(supplierId);
+                return Ok(ApiResponseFactory.Create(medicines, "Medicines fetched successfully", 200, true));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching medicines for SupplierId: {SupplierId}", supplierId);
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
+            }
+        }
     }
 }
