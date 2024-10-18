@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using SharedClasses;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -88,7 +89,6 @@ builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 
 builder.Services.AddScoped<PermissionSeeder>();
-
 builder.Services.AddHttpContextAccessor();
 
 JwtOptions? jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>();

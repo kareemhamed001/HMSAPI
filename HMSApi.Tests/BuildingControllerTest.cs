@@ -20,17 +20,17 @@ namespace HMSApi.Tests
     public class BuildingsControllerTests
     {
         private readonly Mock<IBuildingService> _mockBuildingService;
-        private readonly Mock<ILogger<BuldingsController>> _mockLogger;
+        private readonly Mock<ILogger<BuildingsController>> _mockLogger;
         private readonly IMapper _mapper;
-        private readonly BuldingsController _controller;
+        private readonly BuildingsController _controller;
 
         public BuildingsControllerTests()
         {
             _mockBuildingService = new Mock<IBuildingService>();
-            _mockLogger = new Mock<ILogger<BuldingsController>>();
+            _mockLogger = new Mock<ILogger<BuildingsController>>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfiles>());
             _mapper = config.CreateMapper();
-            _controller = new BuldingsController(_mockBuildingService.Object, _mockLogger.Object, _mapper);
+            _controller = new BuildingsController(_mockBuildingService.Object, _mockLogger.Object, _mapper);
         }
         [Fact]
         public async Task GetAllBuildings_WhenBuildingsExist_ShouldReturnOk()
@@ -48,7 +48,7 @@ namespace HMSApi.Tests
                 new BuildingResponse { Id = 2, Name = "class 2", Description = "class2" }
             };
 
-            _mockBuildingService.Setup(b => b.GetAllBuildingsAsync())
+            _mockBuildingService.Setup(b => b.GetAllBuildingsAsync(1,10))
                 .ReturnsAsync(BuildingesResponse);
 
             // Act
@@ -68,7 +68,7 @@ namespace HMSApi.Tests
             // Arrange
             List<BuildingResponse> emptyResponse = new List<BuildingResponse>();
 
-            _mockBuildingService.Setup(b => b.GetAllBuildingsAsync())
+            _mockBuildingService.Setup(b => b.GetAllBuildingsAsync(1,10))
                 .ReturnsAsync(emptyResponse);
 
             // Act
@@ -86,11 +86,11 @@ namespace HMSApi.Tests
         public async Task GetAllBuildings_WhenServiceThrowsException_ShouldReturnInternalServerError()
         {
             // Arrange
-            _mockBuildingService.Setup(b => b.GetAllBuildingsAsync())
+            _mockBuildingService.Setup(b => b.GetAllBuildingsAsync(1,10))
                 .ThrowsAsync(new Exception("Service error"));
 
             // Act
-            var result = await _controller.GetAllBuildings();
+            var result = await _controller.GetAllBuildings(1);
 
             // Assert
             var statusResult = Assert.IsType<ObjectResult>(result.Result);
@@ -333,10 +333,10 @@ namespace HMSApi.Tests
         {
             // Arrange
             int buildingId = 1;
-            var floors = new List<Floor>
+            var floors = new List<FloorResponse>
               {
-                 new Floor { Id = 1 ,Name = "First Floor" },
-                 new Floor { Id = 1,  Name = "secound Floor" },
+                 new FloorResponse { Id = 1 ,Name = "First Floor" },
+                 new FloorResponse { Id = 1,  Name = "secound Floor" },
               };
 
             _mockBuildingService.Setup(b => b.GetFloorsByBuildingIdAsync(buildingId))
@@ -347,7 +347,7 @@ namespace HMSApi.Tests
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            var apiResponse = Assert.IsType<ApiResponseListStrategy<Floor>>(okResult.Value);
+            var apiResponse = Assert.IsType<ApiResponseListStrategy<FloorResponse>>(okResult.Value);
             Assert.Equal(200, apiResponse.Status);
             Assert.True(apiResponse.Success);
             Assert.Equal(floors, apiResponse.Data);

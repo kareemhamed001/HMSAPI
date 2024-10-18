@@ -18,11 +18,11 @@ namespace BusinessLayer.Services
             _logger = logger;
             this.mapper = mapper;
         }
-        public async Task<IEnumerable<BuildingResponse>> GetAllBuildingsAsync()
+        public async Task<IEnumerable<BuildingResponse>> GetAllBuildingsAsync(int page,int PerPage)
         {
             try
             {
-                var buildings =(List<BuildingResponse>) await _buildingRepository.GetAllBuildingsAsync();
+                var buildings =(List<BuildingResponse>) await _buildingRepository.GetAllBuildingsAsync(page,PerPage);
                 return buildings;
             }
             catch (Exception ex)

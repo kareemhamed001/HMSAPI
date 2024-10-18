@@ -14,5 +14,6 @@ namespace BusinessLayer.Interfaces
         Task<PharmacyResponse> CreatePharmacyAsync(PharmacyRequest pharmacyRequest);
         Task<PharmacyResponse> UpdatePharmacyAsync(int id, PharmacyRequest pharmacyRequest);
         Task<Pharmacy> DeletePharmacyAsync(int id);
+        Task<IEnumerable<MedicineResponse>> GetMedicinesByPharmacyIdAsync(int id);
     }
 }

@@ -120,7 +120,7 @@ namespace LMSApi.Controllers
             }
         }
         [HttpGet]
-        [Route("RoomType/{roomTypeId:int}")]
+        [Route("{roomTypeId:int}/rooms")]
         public async Task<ActionResult<IEnumerable<RoomResponse>>> GetRoomsByRoomTypeId(int roomTypeId)
         {
             try

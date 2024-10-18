@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using SharedClasses;
 using SharedClasses.Responses;
 
 
@@ -7,11 +8,12 @@ namespace DataAccessLayer.Repositories
     public class BuildingRepository : IBuildingRepository
     {
         private readonly AppDbContext _context;
+
         public BuildingRepository(AppDbContext context)
         {
             _context = context;
-
         }
+
         public async Task<BuildingResponse> CreateBuildingAsync(Building building)
         {
             _context.Buildings.Add(building);
@@ -33,9 +35,9 @@ namespace DataAccessLayer.Repositories
             return building;
         }
 
-        public async Task<IEnumerable<BuildingResponse>> GetAllBuildingsAsync()
+        public async Task<IEnumerable<BuildingResponse>> GetAllBuildingsAsync(int page,int PerPage)
         {
-            var buildings = await _context.Buildings
+            var buildings =await _context.Buildings
                 .Select(br => new BuildingResponse
                 {
                     Id = br.Id,
@@ -44,7 +46,11 @@ namespace DataAccessLayer.Repositories
                     address = br.address
                 })
                 .AsNoTracking()
+                //add pagination
+                .Skip((page - 1) * PerPage)
+                .Take(PerPage)
                 .ToListAsync();
+
             return buildings;
         }
 
@@ -80,14 +86,14 @@ namespace DataAccessLayer.Repositories
         public async Task<IEnumerable<FloorResponse>> GetFloorsByBuildingId(int buildingId)
         {
             IEnumerable<FloorResponse> floors = await _context.Floors
-                    .Where(f => f.BuildingId == buildingId)
-                       .Select(f => new FloorResponse
-                       {
-                           Id = f.Id,
-                           Name = f.Name,
-                       })
-                    .AsNoTracking()
-                    .ToListAsync();
+                .Where(f => f.BuildingId == buildingId)
+                .Select(f => new FloorResponse
+                {
+                    Id = f.Id,
+                    Name = f.Name,
+                })
+                .AsNoTracking()
+                .ToListAsync();
 
             return floors;
         }
@@ -95,11 +101,9 @@ namespace DataAccessLayer.Repositories
         public async Task<Building> BuildingExist(int id)
         {
             var building = await _context.Buildings
-             .AsNoTracking()
-             .FirstOrDefaultAsync(b => b.Id == id);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.Id == id);
             return building;
         }
-
-   
     }
 }

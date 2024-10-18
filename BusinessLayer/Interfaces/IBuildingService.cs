@@ -9,7 +9,7 @@ namespace BusinessLayer.Interfaces
 {
     public interface IBuildingService
     {
-        Task<IEnumerable<BuildingResponse>> GetAllBuildingsAsync();
+        public Task<IEnumerable<BuildingResponse>> GetAllBuildingsAsync(int page,int PerPage);
         Task<BuildingResponse> GetBuildingByIdAsync(int id);
         Task<BuildingResponse> CreateBuildingAsync(BuildingRequest buildingRequest);
         Task<BuildingResponse> UpdateBuildingAsync(int id,BuildingRequest buildingRequest);

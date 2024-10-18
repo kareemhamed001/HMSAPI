@@ -86,7 +86,7 @@ namespace DataAccessLayer.Repositories
         public async Task<SupplierResponse?> GetSupplierByMedicineIdAsync(int medicineId)
         {
             var medicine = await _context.Medicines
-                .Include(m => m.Supplier) 
+                .Include(m => m.Supplier)
                 .FirstOrDefaultAsync(m => m.Id == medicineId);
 
             if (medicine?.Supplier == null) return null;
@@ -97,6 +97,23 @@ namespace DataAccessLayer.Repositories
                 Name = medicine.Supplier.Name,
                 Description = medicine.Supplier.Description,
             };
+        }
+        public async Task<IEnumerable<MedicineResponse>> GetMedicinesByPharmacyIdAsync(int pharmacyId)
+        {
+            return await _context.PharmacyMedicines
+                .Where(pm => pm.PharmacyId == pharmacyId)
+                .Include(pm => pm.Medicine)
+                .Select(pm => new MedicineResponse
+                {
+                    Id = pm.Medicine.Id,
+                    Name = pm.Medicine.Name,
+                    Description = pm.Medicine.Description,
+                    SupplierId = pm.Medicine.SupplierId
+                })
+                .AsNoTracking()
+                .ToListAsync();
+
+
         }
     }
 }

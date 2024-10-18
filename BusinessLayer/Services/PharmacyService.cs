@@ -17,22 +17,42 @@ namespace BusinessLayer.Services
     public class PharmacyService : IPharmacyService
     {
         private readonly IPharmacyRepository _pharmacyRepository;
+        private readonly IMedicineRepository _medicineRepository;
+        private readonly IRoomRepository _roomRepository;
         private readonly ILogger<PharmacyService> _logger;
         private readonly IMapper mapper;
-        public PharmacyService(IPharmacyRepository pharmacyRepository, ILogger<PharmacyService> logger, IMapper mapper)
+
+        public PharmacyService(IPharmacyRepository pharmacyRepository, ILogger<PharmacyService> logger, IMapper mapper,
+            IMedicineRepository medicineRepository, IRoomRepository roomRepository)
         {
             _pharmacyRepository = pharmacyRepository;
             _logger = logger;
             this.mapper = mapper;
+            _medicineRepository = medicineRepository;
+            _roomRepository = roomRepository;
         }
+
         public async Task<PharmacyResponse> CreatePharmacyAsync(PharmacyRequest pharmacyRequest)
         {
             try
             {
+                var room = await _roomRepository.GetRoomById(pharmacyRequest.RoomId);
+                if (room == null)
+                {
+                    _logger.LogWarning("Room with ID: {Id} not found for Pharmacy creation.", pharmacyRequest.RoomId);
+                    throw new NotFoundException("Room not found.");
+                }
+
+                var roomIsAvailable = await _roomRepository.RoomIsAvailableAsync(pharmacyRequest.RoomId);
+                if (!roomIsAvailable)
+                {
+                    _logger.LogWarning("Room with ID: {Id} is already occupied.", pharmacyRequest.RoomId);
+                    throw new Exception("Room is already occupied.");
+                }
+
                 Pharmacy pharmacy = mapper.Map<Pharmacy>(pharmacyRequest);
 
-                var createdpharmacy = await _pharmacyRepository.CreatePharmacyAsync(pharmacy);
-                return createdpharmacy;
+                return await _pharmacyRepository.CreatePharmacyAsync(pharmacy);
             }
             catch (Exception ex)
             {
@@ -51,6 +71,7 @@ namespace BusinessLayer.Services
                     _logger.LogWarning("Pharmacy with ID: {Id} not found for deletion.", id);
                     throw new NotFoundException("Pharmacy not found.");
                 }
+
                 Pharmacy pharmacy = mapper.Map<Pharmacy>(pharmacyResponse);
                 var deletedpharmacy = await _pharmacyRepository.DeletePharmacyAsync(pharmacy);
                 return deletedpharmacy;
@@ -86,6 +107,7 @@ namespace BusinessLayer.Services
                     _logger.LogWarning("pharmacy with ID: {Id} not found.", id);
                     throw new NotFoundException("pharmacy not found.");
                 }
+
                 return pharmacy;
             }
             catch (Exception ex)
@@ -118,6 +140,27 @@ namespace BusinessLayer.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error occurred while updating pharmacy with ID: {Id}", id);
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<MedicineResponse>> GetMedicinesByPharmacyIdAsync(int id)
+        {
+            try
+            {
+                var pharmacy = await _pharmacyRepository.GetPharmacyById(id);
+                if (pharmacy == null)
+                {
+                    _logger.LogWarning("Pharmacy with ID: {Id} not found.", id);
+                    throw new NotFoundException("Pharmacy not found.");
+                }
+
+                var medicines = await _medicineRepository.GetMedicinesByPharmacyIdAsync(id);
+                return medicines;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while fetching medicines for PharmacyId: {Id}", id);
                 throw;
             }
         }

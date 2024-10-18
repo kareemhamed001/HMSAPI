@@ -16,18 +16,36 @@ namespace BusinessLayer.Services
     public class RoomService : IRoomService
     {
         private readonly IRoomRepository _roomRepository;
+        private readonly IRoomTypeRepository _roomTypeRepository;
+        private readonly IFloorRepository _floorRepository;
         private readonly ILogger<RoomService> _logger;
         private readonly IMapper mapper;
-        public RoomService(IRoomRepository roomRepository, ILogger<RoomService> logger, IMapper mapper)
+        public RoomService(IRoomRepository roomRepository, ILogger<RoomService> logger, IMapper mapper, IRoomTypeRepository roomTypeRepository, IFloorRepository floorRepository)
         {
             _roomRepository = roomRepository;
             _logger = logger;
             this.mapper = mapper;
+            _roomTypeRepository = roomTypeRepository;
+            _floorRepository = floorRepository;
         }
         public async Task<RoomResponse> CreateRoomAsync(RoomRequest roomRequest)
         {
             try
             {
+                var roomType = await _roomTypeRepository.GetRoomTypeById(roomRequest.RoomsTypesTd);
+                if (roomType == null)
+                {
+                    _logger.LogWarning("RoomType with ID: {Id} not found for Room creation.", roomRequest.RoomsTypesTd);
+                    throw new NotFoundException("Room type not found.");
+                }
+                
+                var floor = await _floorRepository.GetFloorById(roomRequest.FloorId);
+                if (floor == null)
+                {
+                    _logger.LogWarning("Floor with ID: {Id} not found for Room creation.", roomRequest.FloorId);
+                    throw new NotFoundException("Floor not found.");
+                }
+                
                 Room room = mapper.Map<Room>(roomRequest);
 
                 var createdroom = await _roomRepository.CreateRoomAsync(room);

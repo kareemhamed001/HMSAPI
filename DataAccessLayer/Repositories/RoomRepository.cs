@@ -98,5 +98,28 @@ namespace DataAccessLayer.Repositories
                 Name = room.RoomType.Name,
             };
         }
+        
+        public async Task<bool> RoomIsAvailableAsync(int id)
+        {
+            var pharmacy = await _context.pharmacies.FirstOrDefaultAsync(p => p.RoomId == id);
+            if (pharmacy is not null)
+            {
+                return false;
+            }
+
+            var clinic = await _context.Clinics.FirstOrDefaultAsync(p => p.RoomId == id);
+            if (clinic is not null)
+            {
+                return false;
+            }
+
+            var warehouse = await _context.Warehouses.FirstOrDefaultAsync(p => p.RoomId == id);
+            if (warehouse is not null)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

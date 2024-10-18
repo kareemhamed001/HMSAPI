@@ -12,10 +12,10 @@ namespace DataAccessLayer.Repositories
     public class PharmacyRepository : IPharmacyRepository
     {
         private readonly AppDbContext _context;
+
         public PharmacyRepository(AppDbContext context)
         {
             _context = context;
-
         }
 
         public async Task<PharmacyResponse> CreatePharmacyAsync(Pharmacy pharmacy)
@@ -27,7 +27,7 @@ namespace DataAccessLayer.Repositories
                 Id = pharmacy.Id,
                 Name = pharmacy.Name,
                 RoomId = pharmacy.RoomId,
-                Description=pharmacy.Description 
+                Description = pharmacy.Description
             };
             return response;
         }
@@ -37,21 +37,20 @@ namespace DataAccessLayer.Repositories
             _context.pharmacies.Remove(pharmacy);
             await _context.SaveChangesAsync();
             return pharmacy;
-
         }
 
         public async Task<IEnumerable<PharmacyResponse>> GetAllPharmacyAsync()
         {
             var pharmacy = await _context.pharmacies
-            .Select(br => new PharmacyResponse
-            {
-                Id = br.Id,
-                Name = br.Name,
-                RoomId = br.RoomId,
-                Description = br.Description
-            })
-            .AsNoTracking()
-            .ToListAsync();
+                .Select(br => new PharmacyResponse
+                {
+                    Id = br.Id,
+                    Name = br.Name,
+                    RoomId = br.RoomId,
+                    Description = br.Description
+                })
+                .AsNoTracking()
+                .ToListAsync();
 
             return pharmacy;
         }
@@ -59,14 +58,14 @@ namespace DataAccessLayer.Repositories
         public async Task<PharmacyResponse?> GetPharmacyById(int id)
         {
             return await _context.pharmacies.AsNoTracking()
-           .Select(br => new PharmacyResponse
-            {
-              Id = br.Id,
-              Name = br.Name,
-              RoomId = br.RoomId,
-              Description = br.Description
-             })
-           .FirstOrDefaultAsync(b => b.Id == id);
+                .Select(br => new PharmacyResponse
+                {
+                    Id = br.Id,
+                    Name = br.Name,
+                    RoomId = br.RoomId,
+                    Description = br.Description
+                })
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task<PharmacyResponse> UpdatePharmacyAsync(int id, Pharmacy pharmacy)

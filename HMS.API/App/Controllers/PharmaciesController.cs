@@ -118,5 +118,27 @@ namespace LMSApi.Controllers
                 return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
+
+        [HttpGet]
+        [Route("{id:int}/medicines")]
+        public async Task<ActionResult<IApiResponse>> GetMedicinesByPharmacyId(int id)
+        {
+            try
+            {
+                var medicines= await _pharmacyService.GetMedicinesByPharmacyIdAsync(id);
+                return Ok(ApiResponseFactory.Create(medicines, "Medicines fetched successfully", 200, true));
+            }
+            catch (NotFoundException ex)
+            {
+                _logger.LogWarning(ex.Message);
+                return NotFound(ApiResponseFactory.Create(ex.Message, 404, false));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex, "An error occurred while deleting pharmacy with ID: {Id}. Log message: {logMessage}", id, ex);
+                return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
+            }
+        }
+
     }
 }

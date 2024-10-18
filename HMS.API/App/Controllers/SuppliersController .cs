@@ -120,7 +120,7 @@ namespace LMSApi.Controllers
             }
         }
         [HttpGet]
-        [Route("supplierId/medicines")]
+        [Route("{supplierId:int}/medicines")]
         public async Task<ActionResult<IEnumerable<MedicineResponse>>> GetMedicinesBySupplierId(int supplierId)
         {
             try

@@ -12,5 +12,6 @@ namespace DataAccessLayer.Interfaces
         Task<MedicineResponse> UpdateMedicineAsync(int id, Medicine medicine);
         Task<Medicine> DeleteMedicineAsync(int id);
         Task<SupplierResponse?> GetSupplierByMedicineIdAsync(int medicineId);
+        Task<IEnumerable<MedicineResponse>> GetMedicinesByPharmacyIdAsync(int pharmacyId);
     }
 }

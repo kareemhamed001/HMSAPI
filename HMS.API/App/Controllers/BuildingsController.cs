@@ -1,7 +1,6 @@
-﻿
-using LMSApi.App.Requests;
-
+﻿using LMSApi.App.Requests;
 using AutoMapper;
+using SharedClasses;
 using SharedClasses.Exceptions;
 using SharedClasses.Responses;
 
@@ -15,7 +14,8 @@ namespace LMSApi.Controllers
         private readonly ILogger<BuildingsController> logger;
         private readonly IMapper mapper;
 
-        public BuildingsController(IBuildingService buildingService, ILogger<BuildingsController> logger, IMapper mapper)
+        public BuildingsController(IBuildingService buildingService, ILogger<BuildingsController> logger,
+            IMapper mapper)
         {
             this.buildingService = buildingService;
             this.logger = logger;
@@ -24,11 +24,11 @@ namespace LMSApi.Controllers
 
         [HttpGet]
         [Route("")]
-        public async Task<ActionResult<IApiResponse>> GetAllBuildings()
+        public async Task<ActionResult<IApiResponse>> GetAllBuildings([FromQuery] int page = 1,[FromQuery] int perPage=10)
         {
             try
             {
-                var buildings = await buildingService.GetAllBuildingsAsync();
+                var buildings = await buildingService.GetAllBuildingsAsync(page,perPage);
                 var buildingResponses = mapper.Map<List<BuildingResponse>>(buildings);
                 return Ok(ApiResponseFactory.Create(buildingResponses, "Buildings fetched successfully", 200, true));
             }
@@ -56,7 +56,8 @@ namespace LMSApi.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogCritical(ex, "An error occurred while fetching building with ID: {Id}. Log message: {logMessage}", id, ex);
+                logger.LogCritical(ex,
+                    "An error occurred while fetching building with ID: {Id}. Log message: {logMessage}", id, ex);
                 return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
@@ -77,7 +78,6 @@ namespace LMSApi.Controllers
                 logger.LogCritical(ex, "An error occurred while adding building. Log message: {logMessage}", ex);
                 return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
-
         }
 
         [HttpPut]
@@ -97,7 +97,8 @@ namespace LMSApi.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogCritical(ex, "An error occurred while updating building with ID: {Id}. Log message: {logMessage}", id, ex);
+                logger.LogCritical(ex,
+                    "An error occurred while updating building with ID: {Id}. Log message: {logMessage}", id, ex);
                 return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
@@ -118,7 +119,8 @@ namespace LMSApi.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogCritical(ex, "An error occurred while deleting building with ID: {Id}. Log message: {logMessage}", id, ex);
+                logger.LogCritical(ex,
+                    "An error occurred while deleting building with ID: {Id}. Log message: {logMessage}", id, ex);
                 return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
@@ -139,11 +141,11 @@ namespace LMSApi.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogCritical(ex, "An error occurred while fetching floors for building with ID: {BuildingId}. Log message: {logMessage}", buildingId, ex);
+                logger.LogCritical(ex,
+                    "An error occurred while fetching floors for building with ID: {BuildingId}. Log message: {logMessage}",
+                    buildingId, ex);
                 return StatusCode(500, ApiResponseFactory.Create(ex.Message, 500, false));
             }
         }
-
-
     }
 }
